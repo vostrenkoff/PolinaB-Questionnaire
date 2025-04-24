@@ -1,0 +1,164 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background-color: #f7f8fa;
+    height: 100%;
+  }
+  
+  /* Тайтл сайта */
+  .site-title {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 27px;
+    font-weight: 700;
+    color: #111;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /* Центровка всей обёртки */
+  .questionnaire-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 400px; /* фиксированная высота, чтобы контейнеры не толкали друг друга */
+    margin: 100px auto 40px;
+  }
+  
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 40px 30px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease;
+  }
+  
+  
+  /* Заголовок */
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Описание */
+  .description {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 80px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  /* Варианты */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 20px;
+    margin-bottom: 40px;
+  }
+  
+  li {
+    margin-bottom: 14px;
+  }
+  
+  label {
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  
+  input[type="radio"] {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+    accent-color: #0078f2;
+  }
+  
+  /* Кнопки */
+/* КНОПКИ */
+.buttons {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 256px;
+    width: 100%;
+    max-width: 600px;
+    padding-top: 500px;
+  }
+  
+  button {
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  /* "Назад" — мягкая, прозрачная */
+  button:first-child {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #333;
+  }
+  
+  /* "Далее" — залитая */
+  button:last-child {
+    background-color: #0078f2;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 120, 242, 0.25);
+  }
+  
+  button:last-child:hover:not(:disabled) {
+    background-color: #005ec6;
+  }
+  
+  /* Disabled */
+  button:disabled {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .result-screen {
+    text-align: center;
+    padding: 80px 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    max-width: 600px;
+    margin: 100px auto;
+  }
+  
+  .result-screen h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 20px;
+  }
+  
+  .result-screen p {
+    font-size: 16px;
+    color: #444;
+  }
+  .img-responsive {
+    width: 30%;
+  }
+  

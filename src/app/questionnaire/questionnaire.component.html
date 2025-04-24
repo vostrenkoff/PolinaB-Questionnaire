@@ -1,0 +1,148 @@
+<div class="site-title">СКОТНЫЙ ДВОР</div>
+<div class="questionnaire-wrapper">
+    <div *ngIf="!showResults">
+    <!-- Первый вопрос -->
+    <div *ngIf="currentIndex === 0" class="container"
+      [@slide]="getSlideParams()">
+      <h2>вы lox?</h2>
+      <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+      <ul>
+        <li *ngFor="let answer of questions[0].answers">
+          <label>
+            <input type="radio" [value]="answer" name="q1"
+                   [(ngModel)]="questions[0].selected" />
+            {{ answer }}
+          </label>
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Второй вопрос -->
+    <div *ngIf="currentIndex === 1" class="container"
+      [@slide]="getSlideParams()">
+      <h2>Какая lox вам нравится больше lox?</h2>
+      <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+
+      <ul>
+        <li *ngFor="let answer of questions[1].answers">
+          <label>
+            <input type="radio" [value]="answer" name="q2"
+                   [(ngModel)]="questions[1].selected" />
+            {{ answer }}
+          </label>
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Третий вопрос -->
+    <div *ngIf="currentIndex === 2" class="container"
+      [@slide]="getSlideParams()">
+      <h2>sasal?</h2>
+      <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+
+      <ul>
+        <li *ngFor="let answer of questions[2].answers">
+          <label>
+            <input type="radio" [value]="answer" name="q3"
+                   [(ngModel)]="questions[2].selected" />
+            {{ answer }}
+          </label>
+        </li>
+      </ul>
+    </div>
+   <!-- Третий вопрос -->
+   <div *ngIf="currentIndex === 3" class="container"
+    [@slide]="getSlideParams()">
+    <h2>lox??</h2>
+    <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+
+    <ul>
+        <li *ngFor="let answer of questions[3].answers">
+        <label>
+            <input type="radio" [value]="answer" name="q4"
+                    [(ngModel)]="questions[3].selected" />
+            {{ answer }}
+        </label>
+        </li>
+    </ul>
+    </div>
+    <div *ngIf="currentIndex === 4" class="container"
+    [@slide]="getSlideParams()">
+    <h2>skazhite a vy lox е?</h2>
+    <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+
+    <ul>
+        <li *ngFor="let answer of questions[4].answers">
+        <label>
+            <input type="radio" [value]="answer" name="q5"
+                    [(ngModel)]="questions[4].selected" />
+            {{ answer }}
+        </label>
+        </li>
+    </ul>
+    </div>
+    <div *ngIf="currentIndex === 5" class="container"
+    [@slide]="getSlideParams()">
+    <h2>ty lox?</h2>
+    <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+
+    <ul>
+        <li *ngFor="let answer of questions[5].answers">
+        <label>
+            <input type="radio" [value]="answer" name="q6"
+                    [(ngModel)]="questions[5].selected" />
+            {{ answer }}
+        </label>
+        </li>
+    </ul>
+    </div>
+    <div *ngIf="currentIndex === 6" class="container"
+    [@slide]="getSlideParams()">
+    <h2>vy loh?</h2>
+    <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+
+    <ul>
+        <li *ngFor="let answer of questions[6].answers">
+        <label>
+            <input type="radio" [value]="answer" name="q7"
+                    [(ngModel)]="questions[6].selected" />
+            {{ answer }}
+        </label>
+        </li>
+    </ul>
+    </div>
+    <div *ngIf="currentIndex === 7" class="container"
+    [@slide]="getSlideParams()">
+    <h2>a ty lox?</h2>
+    <p class="description">Choose choose choosechoose choose choose choose choose choose choose choose choose choosechoosechoosechoosechoosechoosechoose</p>
+
+    <ul>
+        <li *ngFor="let answer of questions[7].answers">
+        <label>
+            <input type="radio" [value]="answer" name="q8"
+                    [(ngModel)]="questions[7].selected" />
+            {{ answer }}
+        </label>
+        </li>
+    </ul>
+</div>
+  </div>
+  <!-- Результаты -->
+<div *ngIf="showResults" class="result-screen">
+    <h1>Results</h1>
+    <p>ty karoche lox</p>
+    <img class="img-responsive" src="assets/lox.jpg">
+  </div>
+  
+  <div class="buttons" *ngIf="!showResults">
+    <button (click)="previous()" [disabled]="currentIndex === 0">Назад</button>
+    <button 
+  (click)="next()" 
+  [disabled]="!isAnswerSelected()">
+  {{ currentIndex === questions.length - 1 ? 'Готово' : 'Далее' }}
+</button>
+
+      
+  </div>
+
+</div>
