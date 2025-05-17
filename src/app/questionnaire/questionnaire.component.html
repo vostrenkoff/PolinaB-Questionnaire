@@ -1,0 +1,255 @@
+<!-- questionnaire.component.html -->
+<div class="site-title">СКОТНЫЙ ДВОР</div>
+<div class="questionnaire-wrapper">
+  <ng-container *ngIf="!showResults">
+    <ng-container [ngSwitch]="question.type || 'single'">
+
+      <div *ngSwitchCase="'intro'" class="container">
+        <h2>{{ question.question }}</h2>
+        <div class="personal-form">
+          <p class="description">{{ question.description }}</p>
+        </div>
+      
+        <div class="checkbox-wrapper">
+          <input type="checkbox" [(ngModel)]="personalConsentFields.consent" />
+          <label>I understand.</label>
+        </div>
+      
+        <div class="buttons inside">
+          <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+          <button (click)="next()" [disabled]="!personalConsentFields.consent">Next</button>
+        </div>
+      </div>
+      
+
+      <div *ngSwitchCase="'outro'" class="container">
+        <ng-container *ngIf="question.fields as fields">
+          <h2>{{ question.question }}</h2>
+          <div class="personal-form">
+            <p class="description">{{ question.description }}</p>
+            <input type="text" placeholder="Name (optional)" [(ngModel)]="fields.name" />
+            <input type="text" placeholder="Last name (optional)" [(ngModel)]="fields.lastname" />
+            <input type="number" placeholder="Age" [(ngModel)]="fields.age" />
+            <select [(ngModel)]="fields.gender">
+              <option disabled value="">Select gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+            <input type="text" placeholder="Nationality" [(ngModel)]="fields.nationality" />
+            <input type="text" placeholder="Education level" [(ngModel)]="fields.education" />
+            <input type="email" placeholder="Email address" [(ngModel)]="fields.email" />
+            <label>
+              Rate your average online shopping experience (1–10):
+              <input type="number" min="1" max="10" [(ngModel)]="fields.experienceRating" />
+            </label>
+            <textarea placeholder="Would you like to leave some feedback to the researchers? (optional)" [(ngModel)]="fields.feedback"></textarea>
+      
+            
+          </div>
+      
+          <div class="buttons inside">
+            <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+            <button (click)="next()" [disabled]="!fields.email || !fields.experienceRating">Done</button>
+
+          </div>
+        </ng-container>
+      </div>
+      
+      
+
+      <div *ngSwitchCase="'info'" class="container">
+        <h2>{{ question.question }}</h2>
+        <div class="personal-form">
+          <pre class="description">{{ question.description }}</pre>
+
+        </div>
+
+        <div class="buttons inside">
+          <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+          <button (click)="next()" [disabled]="">Yes I'm ready</button>
+        </div>
+      </div>
+      
+      <!-- Вопрос с личными данными -->
+      <!-- <div *ngSwitchCase="'personal'" class="container">
+        <h2>{{ question.question }}</h2>
+        <div class="personal-form">
+          <p class="description">{{ question.description }}</p>
+          <input type="text" placeholder="ФИО" [(ngModel)]="personalFields.name" />
+          <input type="email" placeholder="Email" [(ngModel)]="personalFields.email" />
+
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="personalFields.consent" />
+            I agree
+          </label>
+        </div>
+
+        <div class="buttons inside">
+          <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+          <button (click)="next()" [disabled]="!personalFields.name || !personalFields.email || !personalFields.consent">Next</button>
+        </div>
+      </div> -->
+
+      <!-- Вопрос с вариантами -->
+      <!-- <div *ngSwitchCase="'single'" class="container">
+        <h2>{{ question.question }}</h2>
+        <p class="description">{{ question.description }}</p>
+        <ul>
+          <li *ngFor="let answer of question.answers">
+            <label>
+              <input type="radio" [value]="answer" [name]="'q' + currentIndex" [(ngModel)]="question.selected" />
+              {{ answer }}
+            </label>
+          </li>
+        </ul>
+        <div class="buttons inside">
+          <button (click)="previous()" [disabled]="currentIndex === 0">Назад</button>
+          <button (click)="next()" [disabled]="!isAnswerSelected()">{{ currentIndex === questions.length - 1 ? 'Done' : 'Next' }}</button>
+        </div>
+      </div> -->
+
+      <!-- Вопрос-таблица -->
+      <div *ngSwitchCase="'matrix'" class="container">
+        <h2>{{ question.question }}</h2>
+        <p class="description">{{ question.description }}</p>
+
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>A</th>
+              <th>B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of question.rows">
+              <td>
+                <label>
+                  <input type="radio" [name]="'row' + row.id" [value]="'A'" [(ngModel)]="row.selected" />
+                  {{ row.optionA }}
+                </label>
+              </td>
+              <td>
+                <label>
+                  <input type="radio" [name]="'row' + row.id" [value]="'B'" [(ngModel)]="row.selected" />
+                  {{ row.optionB }}
+                </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="buttons inside">
+          <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+          <button (click)="next()" [disabled]="!isAnswerSelected()">{{ currentIndex === questions.length - 1 ? 'Done' : 'Next' }}</button>
+        </div>
+      </div>
+
+      <!-- Вопрос с выбором между двумя контейнерами -->
+      <ng-container *ngSwitchCase="'visual-compare-tshirt'">
+        <div class="container" *ngIf="question.optionA && question.optionB">
+          <h2>{{ question.question }}</h2>
+          <p class="description">{{ question.description }}</p>
+
+          <div class="visual-options">
+            <div class="visual-option" [class.selected]="question.selected === 'A'" (click)="handleVisualSelectTshirt('A')">
+              <h3>{{ question.optionA.title }}</h3>
+              <!-- <img [src]="question.optionA.image" alt="A" /> -->
+              <p>{{ question.optionA.description }}</p>
+              <h4>{{ question.optionA.subtitle }} &#8203; &#8203; &#8203; </h4>
+              
+              <input type="radio" name="visual" value="A" [(ngModel)]="question.selected" />
+            </div>
+            <div class="visual-option" [class.selected]="question.selected === 'B'" (click)="handleVisualSelectTshirt('B')">
+              <h3>{{ question.optionB.title }}</h3>
+              <!-- <img [src]="question.optionB.image" alt="B" /> -->
+              <p>{{ question.optionB.description }}</p>
+              <h4>{{ question.optionB.subtitle }} &#8203; &#8203; &#8203; </h4>
+              <input type="radio" name="visual" value="B" [(ngModel)]="question.selected" />
+            </div>
+          </div>
+
+          <div class="buttons inside">
+            <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+            <button (click)="next()" [disabled]="!question.selected">
+              {{ currentIndex === questions.length - 1 ? 'Done' : 'Next' }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'visual-compare-desk'">
+        <div class="container" *ngIf="question.optionA && question.optionB">
+          <h2>{{ question.question }}</h2>
+          <p class="description">{{ question.description }}</p>
+
+          <div class="visual-options">
+            <div class="visual-option" [class.selected]="question.selected === 'A'" (click)="handleVisualSelectDesk('A')">
+              <h3>{{ question.optionA.title }}</h3>
+              <!-- <img [src]="question.optionA.image" alt="A" /> -->
+              <p>{{ question.optionA.description }}</p>
+              <h4>{{ question.optionA.subtitle }} &#8203; &#8203; &#8203; </h4>
+              <!-- <p>{{ question.optionA.description }}</p> -->
+              <input type="radio" name="visual" value="A" [(ngModel)]="question.selected" />
+            </div>
+            <div class="visual-option" [class.selected]="question.selected === 'B'" (click)="handleVisualSelectDesk('B')">
+              <h3>{{ question.optionB.title }}</h3>
+              <!-- <img [src]="question.optionB.image" alt="B" /> -->
+              <p>{{ question.optionB.description }}</p>
+              <h4>{{ question.optionB.subtitle }} &#8203; &#8203; &#8203; </h4>
+              <!-- <p>{{ question.optionB.description }}</p> -->
+              <input type="radio" name="visual" value="B" [(ngModel)]="question.selected" />
+            </div>
+          </div>
+
+          <div class="buttons inside">
+            <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+            <button (click)="next()" [disabled]="!question.selected">
+              {{ currentIndex === questions.length - 1 ? 'Done' : 'Next' }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'visual-compare-tv'">
+        <div class="container" *ngIf="question.optionA && question.optionB">
+          <h2>{{ question.question }}</h2>
+          <p class="description">{{ question.description }}</p>
+
+          <div class="visual-options">
+            <div class="visual-option" [class.selected]="question.selected === 'A'" (click)="handleVisualSelectTV('A')">
+              <h3>{{ question.optionA.title }}</h3>
+              <!-- <img [src]="question.optionA.image" alt="A" /> -->
+              <p>{{ question.optionA.description }}</p>
+              <h4>{{ question.optionA.subtitle }} &#8203; &#8203; &#8203; </h4>
+              <!-- <p>{{ question.optionA.description }}</p> -->
+              <input type="radio" name="visual" value="A" [(ngModel)]="question.selected" />
+            </div>
+            <div class="visual-option" [class.selected]="question.selected === 'B'" (click)="handleVisualSelectTV('B')">
+              <h3>{{ question.optionB.title }}</h3>
+              <!-- <img [src]="question.optionB.image" alt="B" /> -->
+              <p>{{ question.optionB.description }}</p>
+              <h4>{{ question.optionB.subtitle }} &#8203; &#8203; &#8203; </h4>
+              <!-- <p>{{ question.optionB.description }}</p> -->
+              <input type="radio" name="visual" value="B" [(ngModel)]="question.selected" />
+            </div>
+          </div>
+
+          <div class="buttons inside">
+            <button (click)="previous()" [disabled]="currentIndex === 0">Return</button>
+            <button (click)="next()" [disabled]="!question.selected">
+              {{ currentIndex === questions.length - 1 ? 'Done' : 'Next' }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <!-- Результат -->
+  <div *ngIf="showResults" class="result-screen">
+    <h1>Results</h1>
+    <p>ty karoche lox</p>
+    <img class="img-responsive" src="assets/lox.jpg" />
+  </div>
+</div>
